@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PostNote - Sticky Notes for Linux</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #463931;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .header {
+            text-align: center;
+            background: white;
+            border-radius: 20px;
+            padding: 60px 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .brand-image {
+            max-width: 240px;
+            height: auto;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 3em;
+            color: #281D16;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .tagline {
+            font-size: 1.3em;
+            color: #666;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .content {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            color: #281D16;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            font-size: 1.8em;
+            border-bottom: 2px solid #281D16;
+            padding-bottom: 10px;
+        }
+
+        h2:first-child {
+            margin-top: 0;
+        }
+
+        h3 {
+            color: #281D16;
+            margin-top: 25px;
+            margin-bottom: 12px;
+            font-size: 1.4em;
+        }
+
+        h4 {
+            color: #281D16;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+            font-weight: 600;
+        }
+
+        p {
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+
+        ul {
+            margin-left: 20px;
+            margin-bottom: 20px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        .code-block {
+            background: #f5f5f5;
+            border-left: 4px solid #667eea;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+            white-space: pre;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            margin: 5px 5px 5px 0;
+        }
+
+        .links {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 30px 0;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px 20px;
+            background: #463931;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            line-height: 1.5;
+            height: 40px;
+            box-sizing: border-box;
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            background: #281D16;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+
+        .footer {
+            text-align: center;
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .footer-logo {
+            max-width: 300px;
+            height: auto;
+            margin: 20px 0;
+            transition: transform 0.3s ease;
+        }
+
+        .footer-logo:hover {
+            transform: scale(1.05);
+        }
+
+        .credit {
+            color: #666;
+            font-size: 0.9em;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .credit-left {
+            color: #666;
+            font-size: 0.9em;
+            margin-top: 20px;
+            text-align: left;
+        }
+
+        .warning {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        .info {
+            background: #d1ecf1;
+            border-left: 4px solid #17a2b8;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2em;
+            }
+
+            .container {
+                padding: 20px 10px;
+            }
+
+            .content, .header, .footer {
+                padding: 30px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>PostNote</h1>
+            <img src="postnote.svg" alt="PostNote" class="brand-image">
+            <p class="tagline">Modern sticky notes for Linux with Wayland support</p>
+            <div class="links">
+                <a href="https://github.com/runableapp/postnote" class="btn btn-secondary" target="_blank">Download</a>
+                <script type='text/javascript' src='https://storage.ko-fi.com/cdn/widget/Widget_2.js'></script><script type='text/javascript'>kofiwidget2.init('Support me on Ko-fi', '#463931', 'G2G21R1BX8');kofiwidget2.draw();</script> 
+            </div>
+        </div>
+
+        <div class="content">
+            <h2>About</h2>
+            <p>
+                <strong>PostNote</strong> is a modern, high-performance note-taking application for Linux, written in <strong>Go</strong> with native <strong>Wayland</strong> support. Inspired by the work of Umang Varma (<a href="https://launchpad.net/indicator-stickynotes" target="_blank">Indicator Stickynotes</a>), PostNote offers convenient management of multiple notes through a system tray indicator.
+            </p>
+            
+            <h3>Wayland</h3>
+            <p>
+                <img src="postnote-wayland.webp" alt="PostNote Wayland" style="max-width: 100%; height: auto; margin: 20px 0; border-radius: 10px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);">
+            </p>
+            <h3>X11</h3>
+            <p>
+                <img src="postnote-x11.webp" alt="PostNote X11" style="max-width: 100%; height: auto; margin: 20px 0; border-radius: 10px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);">
+            </p>
+            <h2>Features</h2>
+            <ul>
+                <li>System tray indicator for sticky notes</li>
+                <li>Multiple notes with category support</li>
+                <li>Customizable colors and fonts per category</li>
+                <li>Lock/unlock notes to prevent accidental editing</li>
+                <li>Export/import note data</li>
+                <li>Keyboard shortcuts (Ctrl+W: Delete, Ctrl+L: Lock, Ctrl+N: New)</li>
+                <li>Note button designs can be changed to suit your preference</li>
+                <li>Allow one small image to be pasted into the note (one image per note)</li>
+                <li><strong>Wayland</strong> support for position saving and restoration with GNOME extension</li>
+                <li><strong>Wayland</strong> support for "Always on top" feature, Hide/Show notes</li>
+                <li>All resources are embedded in the binary for portability</li>
+            </ul>
+
+            <h2>Wayland Support</h2>
+            <div class="info">
+                <p><strong>PostNote</strong> supports saving and restoring window positions on Wayland when using the 
+                <a href="https://extensions.gnome.org/extension/4724/window-calls/" target="_blank">window-calls GNOME extension</a>.</p>
+            </div>
+            <p><strong>With the extension installed:</strong></p>
+            <ul>
+                <li>Window positions are automatically tracked and saved</li>
+                <li>Notes restore to their previous positions on restart</li>
+                <li>Position updates happen in real-time as windows are moved</li>
+            </ul>
+            <p><strong>Without the extension (or on X11):</strong></p>
+            <ul>
+                <li>On X11: Window positions work normally using GTK methods</li>
+                <li>On Wayland without extension: Window positions cannot be saved (Wayland security limitation)</li>
+            </ul>
+
+            <h2>Requirements</h2>
+            
+            <h3>GNOME Extension (for Wayland)</h3>
+            <div class="warning">
+                <p><strong>Required for Wayland users:</strong> Install the <a href="https://extensions.gnome.org/extension/4724/window-calls/" target="_blank">window-calls</a> 
+                GNOME extension to enable window position saving and restoration on Wayland.</p>
+            </div>
+
+            <h3>APT Packages (Ubuntu/Debian)</h3>
+
+            <p>Required packages for running the application (usually pre-installed):</p>
+            <div class="code-block">
+sudo apt install \
+    libgtk-3-0 \
+    libayatana-appindicator3-0.1
+            </div>
+
+            <h2>Limitations</h2>
+            <ul>
+                <li><strong>Wayland window positioning:</strong> Requires the <code>window-calls</code> GNOME extension. Without it, window positions cannot be saved on Wayland (this is a Wayland security limitation, not a bug).</li>
+                <li><strong>System dependencies:</strong> It uses system GTK libraries (not bundled), so GTK3 and Ayatana AppIndicator must be installed on the target system.</li>
+                <li><strong>Desktop environment:</strong> Currently optimized for GNOME desktop environment with AppIndicator support.</li>
+            </ul>
+
+            <h2>Technology</h2>
+            <p>
+                <strong>PostNote</strong> is written in <strong>Go</strong> using:
+            </p>
+            <ul>
+                <li>GTK3 for the graphical user interface</li>
+                <li>Ayatana AppIndicator for system tray integration</li>
+                <li>CGO for C library bindings</li>
+                <li>Go's embed package for bundling resources</li>
+            </ul>
+        </div>
+
+        <div class="footer">
+            
+
+            <div class="license-section" style="margin-top: 40px; text-align: left;">
+                <h2>License</h2>
+                <pre style="white-space: pre-wrap; font-family: 'SFMono-Regular', Menlo, Consolas, 'Liberation Mono', 'Courier New', monospace; font-size: 1em; text-align: left; color: #333;">
+Shareware / Honorware Copyright Notice
+
+Copyright © 2026 Runable.app. All rights reserved.
+
+This software is distributed as shareware (honorware).
+It is not public domain and not open source.
+
+Permission is granted to copy and redistribute this software free of charge, provided that it is distributed only in its original, unmodified form and that no fee is charged for its distribution.
+
+The software may be used without time limitation for personal, non-commercial purposes.
+Payment of a license fee is voluntary but encouraged to support continued development.
+
+Commercial use of this software requires the purchase of a commercial license.
+
+Modification, reverse engineering, decompilation, or redistribution of modified versions is strictly prohibited without prior written permission from the copyright holder.
+
+This software is provided “as is”, without warranty of any kind, express or implied, including but not limited to the warranties of merchantability, fitness for a particular purpose, and noninfringement.
+
+In no event shall the copyright holder be liable for any claim, damages, or other liability, whether in an action of contract, tort, or otherwise, arising from, out of, or in connection with the software or the use or other dealings in the software.
+
+This copyright notice applies worldwide.
+                </pre>
+            </div>
+
+            <p class="credit">Made with ❤️ by <a href="https://runable.app" target="_blank" style="color: inherit; text-decoration: none;"><strong>Runable.app</strong></a></p>
+
+            <a href="https://runable.app" target="_blank">
+                <img src="runableapp-thankyou.webp" alt="Runable.App" class="footer-logo">
+            </a>
+
+            <p class="credit">© 2026 <a href="https://runable.app" target="_blank" style="color: inherit; text-decoration: none;">Runable.app</a></p>
+        </div>
+    </div>
+
+</body>
+</html>
+
